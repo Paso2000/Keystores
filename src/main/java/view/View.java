@@ -6,6 +6,7 @@ import java.io.File;
 
 public class View extends JFrame{
     private File selectedFile;
+
     private JTextArea textArea = new JTextArea();
     private JComboBox<String> comboCipher;
     private JComboBox<String> comboHash;
@@ -19,10 +20,20 @@ public class View extends JFrame{
     private JMenuItem publicKEyDecryption;
 
     private JMenuItem digitalSign;
+    
+    private JMenuItem storageKey;
+
+    private JLabel LabelKeyStorage;
+
+    private JTextField keyStorageFiled;
+
+    private JLabel unownLabel;
 
     private JMenuItem keySave;
 
     private JMenuItem verifyDigitalSign;
+
+    private JMenuItem loadStorageKey;
 
     private JMenuItem Exit;
     private JPanel passwordPanel;
@@ -44,6 +55,10 @@ public class View extends JFrame{
 
     private JMenuItem printKey;
 
+    private JLabel passwdKeyStorageLabel;
+
+    private JPasswordField passwdKeyStorageField;
+
 
 
 
@@ -61,7 +76,7 @@ public class View extends JFrame{
 
         // Crea il menu
         JMenu menuFile = new JMenu("File");
-        JMenu menuKey = new JMenu("Key");
+        JMenu menuKey = new JMenu("Options");
 
         menuBar.add(menuFile);
         menuBar.add(menuKey);
@@ -131,8 +146,19 @@ public class View extends JFrame{
         comboPublicKey.setSelectedItem("RSA/ECB/PKCS1Padding");
         labelFilePath = new JLabel("File path for saving key");
         pathField = new JTextField("C:\\Users\\lucap\\Desktop\\pratica4.txt",100);
+        unownLabel = new JLabel();
+        JLabel unownLabel2 = new JLabel();
 
-       JButton FileButton = new JButton("Choose File");
+        LabelKeyStorage = new JLabel("Key storage file name");
+        keyStorageFiled = new JTextField("C:\\Users\\lucap\\Desktop\\mykeystore.jks",100);
+        passwdKeyStorageLabel = new JLabel("Key storage password");
+        passwdKeyStorageField = new JPasswordField("pasooo");
+
+
+
+
+        JButton FileButton = new JButton("Choose File");
+
        FileButton.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
@@ -142,17 +168,26 @@ public class View extends JFrame{
            }
        });
 
+        JButton KeyStorageButton = new JButton("Choose the Key Storage File");
+        KeyStorageButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                selectedFile= getFile();
+                assert keyStorage != null;
+                keyStorageFiled.setText(selectedFile.getAbsolutePath());
+            }
+        });
 
 
 
-
-        JMenuItem algorithm = new JMenuItem("Algorithm");
+        //Settings part
+        JMenuItem algorithm = new JMenuItem("Settings");
         algorithm.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 // Crea e mostra il dialogo di configurazione
                 JDialog dialog = new JDialog(frame, "Key Option", true);
-                dialog.setLayout(new GridLayout(6, 2, 10, 10));
-                dialog.setSize(500, 200);
+                dialog.setLayout(new GridLayout(10, 2, 10, 10));
+                dialog.setSize(500, 300);
                 dialog.setLocationRelativeTo(frame);
 
                 dialog.add(labelCipher);
@@ -166,6 +201,13 @@ public class View extends JFrame{
                 dialog.add(labelFilePath);
                 dialog.add(FileButton);
                 dialog.add(pathField);
+                dialog.add(unownLabel);
+                dialog.add(LabelKeyStorage);
+                dialog.add(KeyStorageButton);
+                dialog.add(keyStorageFiled);
+                dialog.add(unownLabel2);
+                dialog.add(passwdKeyStorageLabel);
+                dialog.add(passwdKeyStorageField);
                 dialog.setVisible(true);
             }
         });
@@ -174,10 +216,15 @@ public class View extends JFrame{
         keySave = new JMenuItem("Save keys in the file");
         keyLoad = new JMenuItem("Load key from the file");
         printKey = new JMenuItem("Show the keys");
+        storageKey = new JMenuItem("key Storage");
+        loadStorageKey = new JMenuItem("Load Storage Key");
         menuKey.add(keyGenerate);
         menuKey.add(keySave);
         menuKey.add(keyLoad);
         menuKey.add(printKey);
+        menuKey.add(storageKey);
+        menuKey.add(loadStorageKey);
+
 
         passwordPanel = new JPanel(new BorderLayout());
         passwordLabel = new JLabel("Value: ");
@@ -223,6 +270,9 @@ public class View extends JFrame{
     public String getHashAlgorithm(){return (String) comboHash.getSelectedItem(); }
 
 
+    public String getKeyStorgeName (){return keyStorageFiled.getText();}
+
+    public char[] getKeyStorePasswd(){return passwdKeyStorageField.getPassword();}
     // Methods to view output
     public void addResult(String result) {
         textArea.append(result+"\n\n");
@@ -273,6 +323,14 @@ public class View extends JFrame{
 
     public void addSaveKeyButtonListener(ActionListener listener) {
         keySave.addActionListener(listener);
+    }
+
+    public void addStorageKeyButtonListener(ActionListener listener) {
+        storageKey.addActionListener(listener);
+    }
+
+    public void addLoadStorageKeyButtonListener(ActionListener listener) {
+        loadStorageKey.addActionListener(listener);
     }
 
 

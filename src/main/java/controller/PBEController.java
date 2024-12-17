@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.security.*;
+import java.security.cert.CertificateException;
 import java.security.spec.InvalidKeySpecException;
 
 /**
@@ -38,6 +39,8 @@ public class PBEController {
 
     private PrivateKey privateKey;
 
+    private KeyStores keyStores = new KeyStores();
+
 
 
     /**
@@ -61,13 +64,52 @@ public class PBEController {
         this.view.addPublicKeyEncryptButtonListener(new PublicKeyEncryptButtonListener());
         this.view.addPublicKeyDencryptButtonListener(new PublicKeyDencryptButtonListener());
         this.view.addSaveKeyButtonListener(new SaveKeyButtonListener());
+        this.view.addStorageKeyButtonListener(new StorageKeyButtonListener());
+        this.view.addLoadStorageKeyButtonListener(new LoadStorageKeyButtonListener());
     }
 
-    /**
-     * Listener for the "Hash File" button.
-     * Handles file hashing operations.
-     */
 
+    class LoadStorageKeyButtonListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            char[] passwd = view.getKeyStorePasswd();
+            try {
+                KeyPair keyPair =keyStores.getKeyFromStorage(passwd);
+                privateKey = keyPair.getPrivate();
+                publicKey = keyPair.getPublic();
+                view.addResult(privateKey.toString()+"\n\n"+ publicKey.toString());
+            } catch (KeyStoreException ex) {
+                throw new RuntimeException(ex);
+            } catch (UnrecoverableKeyException ex) {
+                throw new RuntimeException(ex);
+            } catch (NoSuchAlgorithmException ex) {
+                throw new RuntimeException(ex);
+            }
+        }
+    }
+
+
+
+    class StorageKeyButtonListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            char[] passwd = view.getKeyStorePasswd();
+            String keyStorageName = view.getKeyStorgeName();
+            try {
+                keyStores.KeyStoring(keyStorageName,passwd);
+            } catch (KeyStoreException ex) {
+                throw new RuntimeException(ex);
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            } catch (CertificateException ex) {
+                throw new RuntimeException(ex);
+            } catch (NoSuchAlgorithmException ex) {
+                throw new RuntimeException(ex);
+            }
+        }
+    }
     class PublicKeyEncryptButtonListener implements  ActionListener{
 
         @Override

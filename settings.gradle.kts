@@ -1,2 +1,2 @@
-rootProject.name = "Encryption-and-digital-sign"
+rootProject.name = "Keystores"
 

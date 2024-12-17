@@ -20,7 +20,7 @@ public class KeyStores {
         PrivateKey kr= null;
         PublicKey ku = null;
         while (e.hasMoreElements()) {
-            String alias = (String) e.nextElement();
+            String alias = e.nextElement();
             if (keyStore.isKeyEntry(alias)) {
                  kr = (PrivateKey) keyStore.getKey(alias, passwd);
                 java.security.cert.Certificate cert = keyStore.getCertificate(alias);

@@ -66,6 +66,12 @@ public class PBEController {
         this.view.addSaveKeyButtonListener(new SaveKeyButtonListener());
         this.view.addStorageKeyButtonListener(new StorageKeyButtonListener());
         this.view.addLoadStorageKeyButtonListener(new LoadStorageKeyButtonListener());
+        this.view.addCreateStorageKeyButtonListener(new CreateStorageKeyButtonListener());
+        this.view.addVisualizeStorageKeyButtonListener(new VisualizeStorageKeyButtonListener());
+        this.view.addCreateKeyAndCertificateButtonListener(new CreateKeyAndCertificateButtonListener());
+        this.view.addImportKeyButtonListener(new ImportKeyButtonListener());
+        this.view.addDeleteStorageKeyButtonListener(new DeleteStorageKeyButtonListener());
+
     }
 
 

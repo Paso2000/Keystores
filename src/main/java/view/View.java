@@ -17,8 +17,16 @@ public class View extends JFrame{
 
     private JMenuItem publicKeyEncryption;
 
-    private JMenuItem publicKEyDecryption;
+    private JMenuItem importKey;
 
+
+
+    private JMenuItem publicKEyDecryption;
+    private JMenuItem createKeyStore;
+    private JMenuItem visualizeKeyStore;
+    private JMenuItem createKeyPairAndCertificate;
+
+    private JMenuItem deleteKey;
     private JMenuItem digitalSign;
     
     private JMenuItem storageKey;
@@ -77,6 +85,7 @@ public class View extends JFrame{
         // Crea il menu
         JMenu menuFile = new JMenu("File");
         JMenu menuKey = new JMenu("Options");
+        JMenu menuKeyStore = new JMenu("Java Key Store");
 
         menuBar.add(menuFile);
         menuBar.add(menuKey);
@@ -225,6 +234,18 @@ public class View extends JFrame{
         menuKey.add(storageKey);
         menuKey.add(loadStorageKey);
 
+        createKeyStore= new JMenuItem("Create Key Store");
+        visualizeKeyStore = new JMenuItem("Show key store content");
+        createKeyPairAndCertificate = new JMenuItem("Create key pair and KU Certificate");
+        importKey = new JMenuItem("Load Key");
+        deleteKey = new JMenuItem("Delete a record of the key store");
+
+        menuKeyStore.add(createKeyStore);
+        menuKeyStore.add(visualizeKeyStore);
+        menuKeyStore.add(createKeyPairAndCertificate);
+        menuKeyStore.add(importKey);
+        menuKeyStore.add(deleteKey);
+
 
         passwordPanel = new JPanel(new BorderLayout());
         passwordLabel = new JLabel("Value: ");
@@ -329,9 +350,18 @@ public class View extends JFrame{
         storageKey.addActionListener(listener);
     }
 
-    public void addLoadStorageKeyButtonListener(ActionListener listener) {
-        loadStorageKey.addActionListener(listener);
-    }
+    public void addVisualizeStorageKeyButtonListener(ActionListener listener) {visualizeKeyStore.addActionListener(listener);}
+
+    public void addCreateKeyAndCertificateButtonListener(ActionListener listener) {createKeyPairAndCertificate.addActionListener(listener);}
+
+    public void addImportKeyButtonListener(ActionListener listener) {importKey.addActionListener(listener);}
+
+    public void addDeleteStorageKeyButtonListener(ActionListener listener) {deleteKey.addActionListener(listener);}
+
+    public void addCreateStorageKeyButtonListener(ActionListener listener) {createKeyStore.addActionListener(listener);}
+
+    public void addLoadStorageKeyButtonListener(ActionListener listener) {loadStorageKey.addActionListener(listener);}
+
 
 
     // Methods to view error message

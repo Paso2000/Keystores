@@ -12,6 +12,9 @@ import java.nio.file.Path;
 import java.security.*;
 import java.security.cert.CertificateException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.Enumeration;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Controller class for managing the interaction between the View and the Model.
@@ -41,6 +44,8 @@ public class PBEController {
 
     private KeyStores keyStores = new KeyStores();
 
+    private KeyStoreMenager keyStoreMenager;
+
 
 
     /**
@@ -69,9 +74,53 @@ public class PBEController {
         this.view.addCreateStorageKeyButtonListener(new CreateStorageKeyButtonListener());
         this.view.addVisualizeStorageKeyButtonListener(new VisualizeStorageKeyButtonListener());
         this.view.addCreateKeyAndCertificateButtonListener(new CreateKeyAndCertificateButtonListener());
-        this.view.addImportKeyButtonListener(new ImportKeyButtonListener());
-        this.view.addDeleteStorageKeyButtonListener(new DeleteStorageKeyButtonListener());
+        //this.view.addImportKeyButtonListener(new ImportKeyButtonListener());
+        //this.view.addDeleteStorageKeyButtonListener(new DeleteStorageKeyButtonListener());
 
+    }
+
+    class CreateStorageKeyButtonListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+           char[] passwd= view.getKeyStorePasswd();
+            try {
+                keyStoreMenager = new KeyStoreMenager("myStore.jks",passwd);
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+        }
+    }
+
+    class VisualizeStorageKeyButtonListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            try {
+                char[] passwd= view.getKeyStorePasswd();
+                Map<String,KeyPair> entries = keyStoreMenager.listEntries(passwd);
+                for (Map.Entry<String, KeyPair> entry : entries.entrySet()) {
+                    System.out.println();
+                    view.addResult("\n"+ "Alias: " + entry.getKey() + "Public Key: " + entry.getValue().getPublic()+ "Private Key: "+entry.getValue().getPrivate());
+                }
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+        }
+    }
+
+    class CreateKeyAndCertificateButtonListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            char[] passwd= view.getKeyStorePasswd();
+
+            try {
+                keyStoreMenager.createAndStoreKeyPair( "marco",passwd);
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+        }
     }
 
 
@@ -85,7 +134,7 @@ public class PBEController {
                 privateKey = keyPair.getPrivate();
                 publicKey = keyPair.getPublic();
                 view.addResult(privateKey.toString()+"\n\n"+ publicKey.toString());
-            } catch (KeyStoreException | UnrecoverableKeyException | NoSuchAlgorithmException ex) {
+            } catch (KeyStoreException | UnrecoverableKeyException | NoSuchAlgorithmException |ClassCastException ex) {
                 view.addResult("\nKey store not initialized or wrong Password");
             }
         }

@@ -4,7 +4,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.security.*;
 import java.security.cert.Certificate;
-import java.util.Enumeration;
+import java.util.*;
 
 public class KeyStoreMenager {
     private KeyStore keyStore;
@@ -15,18 +15,13 @@ public class KeyStoreMenager {
         this.keyStoreFilePath = filePath;
         this.mainPassword = password;
         this.keyStore = KeyStore.getInstance("JKS");
-        loadKeyStore();
+        createEmptyKeyStore();
     }
 
     // Load or create a KeyStore
-    private void loadKeyStore() throws Exception {
-        try (FileInputStream fis = new FileInputStream(keyStoreFilePath)) {
-            keyStore.load(fis, mainPassword);
-        } catch (Exception e) {
-            System.out.println("KeyStore not found, creating a new one...");
+    private void createEmptyKeyStore() throws Exception {
             keyStore.load(null, mainPassword); // Create a new KeyStore
             saveKeyStore();
-        }
     }
 
     // Save the KeyStore
@@ -37,13 +32,21 @@ public class KeyStoreMenager {
     }
 
     // List all entries in the KeyStore
-    public void listEntries() throws Exception {
-        Enumeration<String> aliases = keyStore.aliases();
-        while (aliases.hasMoreElements()) {
-            String alias = aliases.nextElement();
-            System.out.println("Alias: " + alias);
-            System.out.println("Entry Type: " + (keyStore.isKeyEntry(alias) ? "Key" : "Trusted Certificate"));
+    public Map<String,KeyPair> listEntries(char[] passwd) throws Exception {
+        Map<String, KeyPair> record = new HashMap<>();
+        Enumeration<String> e = keyStore.aliases();
+        PrivateKey kr = null;
+        PublicKey ku = null;
+        while (e.hasMoreElements()) {
+            String alias = e.nextElement();
+            if (keyStore.isKeyEntry(alias)) {
+                kr = (PrivateKey) keyStore.getKey(alias, passwd);
+                java.security.cert.Certificate cert = keyStore.getCertificate(alias);
+                ku = cert.getPublicKey();
+                record.put(alias,new KeyPair(ku,kr));
+            }
         }
+        return record;
     }
 
     // Create a new key pair and store it in the KeyStore
@@ -80,37 +83,6 @@ public class KeyStoreMenager {
             System.out.println("Entry deleted: " + alias);
         } else {
             System.out.println("Alias not found: " + alias);
-        }
-    }
-
-    public static void main(String[] args) {
-        try {
-            String keyStoreFile = "keystore.jks";
-            char[] mainPassword = "password".toCharArray();
-
-            KeyStoreMenager manager = new KeyStoreMenager(keyStoreFile, mainPassword);
-
-            System.out.println("1. List entries:");
-            manager.listEntries();
-
-            System.out.println("\n2. Create and store a key pair:");
-            char[] entryPassword = "keypass".toCharArray();
-            manager.createAndStoreKeyPair("testAlias", entryPassword);
-
-            System.out.println("\n3. List entries again:");
-            manager.listEntries();
-
-            System.out.println("\n4. Retrieve and use a key pair:");
-            KeyPair keyPair = manager.retrieveKeyPair("testAlias", entryPassword);
-
-            System.out.println("\n5. Delete an entry:");
-            manager.deleteEntry("testAlias");
-
-            System.out.println("\n6. List entries again:");
-            manager.listEntries();
-
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 }

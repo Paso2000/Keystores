@@ -74,7 +74,7 @@ public class View extends JFrame{
 
     public View() {
         // Crea il frame
-        JFrame frame = new JFrame("Practice 4 of SRT");
+        JFrame frame = new JFrame("Practice 5 of SRT");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(600, 400);
 
@@ -89,6 +89,7 @@ public class View extends JFrame{
 
         menuBar.add(menuFile);
         menuBar.add(menuKey);
+        menuBar.add(menuKeyStore);
 
 
         // Crea le voci di menu
@@ -154,12 +155,12 @@ public class View extends JFrame{
         comboPublicKey = new JComboBox<>(new String[]{"RSA/ECB/PKCS1Padding"});
         comboPublicKey.setSelectedItem("RSA/ECB/PKCS1Padding");
         labelFilePath = new JLabel("File path for saving key");
-        pathField = new JTextField("C:\\Users\\lucap\\Desktop\\pratica4.txt",100);
+        pathField = new JTextField("pratica5.txt",100);
         unownLabel = new JLabel();
         JLabel unownLabel2 = new JLabel();
 
         LabelKeyStorage = new JLabel("Key storage file name");
-        keyStorageFiled = new JTextField("C:\\Users\\lucap\\Desktop\\mykeystore.jks",100);
+        keyStorageFiled = new JTextField("mykeystore.jks",100);
         passwdKeyStorageLabel = new JLabel("Key storage password");
         passwdKeyStorageField = new JPasswordField("pasooo");
 

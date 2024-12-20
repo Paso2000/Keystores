@@ -299,6 +299,9 @@ public class View extends JFrame{
     public void addResult(String result) {
         textArea.append(result+"\n\n");
     }
+    public void cleanResulArea(){
+        textArea.setText("");
+    }
     public void setResult(String result) {
         textArea.setText(result);
     }

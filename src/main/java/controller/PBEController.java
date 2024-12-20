@@ -79,12 +79,8 @@ public class PBEController {
                 privateKey = keyPair.getPrivate();
                 publicKey = keyPair.getPublic();
                 view.addResult(privateKey.toString()+"\n\n"+ publicKey.toString());
-            } catch (KeyStoreException ex) {
-                throw new RuntimeException(ex);
-            } catch (UnrecoverableKeyException ex) {
-                throw new RuntimeException(ex);
-            } catch (NoSuchAlgorithmException ex) {
-                throw new RuntimeException(ex);
+            } catch (KeyStoreException | UnrecoverableKeyException | NoSuchAlgorithmException ex) {
+                view.addResult("\nKey store not initialized or wrong Password");
             }
         }
     }
@@ -99,14 +95,8 @@ public class PBEController {
             String keyStorageName = view.getKeyStorgeName();
             try {
                 keyStores.KeyStoring(keyStorageName,passwd);
-            } catch (KeyStoreException ex) {
-                throw new RuntimeException(ex);
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            } catch (CertificateException ex) {
-                throw new RuntimeException(ex);
-            } catch (NoSuchAlgorithmException ex) {
-                throw new RuntimeException(ex);
+            } catch (KeyStoreException | IOException | CertificateException | NoSuchAlgorithmException ex) {
+                view.addResult("\nKey store path or Password wrong");
             }
         }
     }

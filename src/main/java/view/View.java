@@ -68,6 +68,11 @@ public class View extends JFrame{
 
     private JPasswordField passwdKeyStorageField;
 
+    private JLabel labelKeystorePath;
+    private JTextField fieldKeystorePath;
+    private JLabel labelKeystorPassword;
+    private JPasswordField fieldKeystorePassword;
+
 
 
 
@@ -165,7 +170,11 @@ public class View extends JFrame{
         passwdKeyStorageLabel = new JLabel("Key storage password");
         passwdKeyStorageField = new JPasswordField("pasooo");
 
-
+        //options windows about Keystore
+        labelKeystorPassword = new JLabel("password");
+        labelKeystorePath = new JLabel("keystore path");
+        fieldKeystorePath = new JPasswordField("", 100);
+        fieldKeystorePassword = new JPasswordField("", 100);
 
 
         JButton FileButton = new JButton("Choose File");
@@ -246,8 +255,10 @@ public class View extends JFrame{
                 dialog.setLocationRelativeTo(frame);
 
                 //da finire
-                dialog.add(labelCipher);
-                dialog.add(comboCipher);
+                dialog.add(labelKeystorePath);
+                dialog.add(fieldKeystorePath);
+                dialog.add(labelKeystorPassword);
+                dialog.add(fieldKeystorePassword);
                 dialog.setVisible(true);
             }
         });
@@ -310,8 +321,11 @@ public class View extends JFrame{
 
 
     public String getKeyStorgeName (){return keyStorageFiled.getText();}
-
     public char[] getKeyStorePasswd(){return passwdKeyStorageField.getPassword();}
+
+    public char[] getMyKeystorePassword(){return fieldKeystorePassword.getPassword();}
+    public String getMyKeystorePath() { return fieldKeystorePath.getText();}
+
     // Methods to view output
     public void addResult(String result) {
         textArea.append(result+"\n\n");
@@ -382,6 +396,7 @@ public class View extends JFrame{
     public void addCreateStorageKeyButtonListener(ActionListener listener) {createKeyStore.addActionListener(listener);}
 
     public void addLoadStorageKeyButtonListener(ActionListener listener) {loadStorageKey.addActionListener(listener);}
+
 
 
 

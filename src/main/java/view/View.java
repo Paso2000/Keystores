@@ -158,7 +158,6 @@ public class View extends JFrame{
         pathField = new JTextField("pratica5.txt",100);
         unownLabel = new JLabel();
         JLabel unownLabel2 = new JLabel();
-
         LabelKeyStorage = new JLabel("Key storage file name");
         keyStorageFiled = new JTextField("mykeystore.jks",100);
         passwdKeyStorageLabel = new JLabel("Key storage password");
@@ -226,8 +225,8 @@ public class View extends JFrame{
         keySave = new JMenuItem("Save keys in the file");
         keyLoad = new JMenuItem("Load key from the file");
         printKey = new JMenuItem("Show the keys");
-        storageKey = new JMenuItem("key Storage");
-        loadStorageKey = new JMenuItem("Load Storage Key");
+        storageKey = new JMenuItem("Load key Storage");
+        loadStorageKey = new JMenuItem("Load Keys from Key Stores");
         menuKey.add(keyGenerate);
         menuKey.add(keySave);
         menuKey.add(keyLoad);

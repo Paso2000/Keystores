@@ -86,7 +86,7 @@ public class PBEController {
            char[] passwd= view.getKeyStorePasswd();
             try {
                 keyStoreMenager = new KeyStoreMenager("myStore.jks",passwd);
-                view.addResult("Store created with name: ");
+                view.addResult("\nStore created with name: ");
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }
@@ -182,6 +182,7 @@ public class PBEController {
             String keyStorageName = view.getKeyStorgeName();
             try {
                 keyStores.KeyStoring(keyStorageName,passwd);
+                view.addResult("\nKey storege loaded from path: "+ keyStorageName);
             } catch (KeyStoreException | IOException | CertificateException | NoSuchAlgorithmException ex) {
                 view.addResult("\nKey store path or Password wrong");
             }

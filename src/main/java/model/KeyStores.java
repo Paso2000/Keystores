@@ -36,7 +36,7 @@ public class KeyStores {
      * @throws KeyStoreException If the KeyStore is not initialized or another error occurs.
      * @throws UnrecoverableKeyException If the key cannot be recovered (e.g., wrong password).
      * @throws NoSuchAlgorithmException If the algorithm for recovering the key cannot be found.
-     */git
+     */
     public KeyPair getKeyFromStorage(char[] passwd) throws KeyStoreException, UnrecoverableKeyException, NoSuchAlgorithmException {
         Enumeration<String> e = keyStore.aliases();
         PrivateKey kr= null;

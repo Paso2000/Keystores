@@ -1,16 +1,25 @@
 package model;
 
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.security.*;
 import java.security.cert.Certificate;
 import java.util.*;
-
+/**
+ * This class provides functionalities to manage a Java KeyStore (JKS).
+ * It allows creating, loading, saving, and manipulating key pairs and certificates within the KeyStore.
+ */
 public class KeyStoreMenager {
     private KeyStore keyStore;
     private String keyStoreFilePath;
     private char[] mainPassword;
 
+    /**
+     * Constructs a KeyStoreMenager instance and initializes the KeyStore.
+     *
+     * @param filePath The path where the KeyStore will be saved.
+     * @param password The password used to secure the KeyStore.
+     * @throws Exception If an error occurs during KeyStore initialization.
+     */
     public KeyStoreMenager(String filePath, char[] password) throws Exception {
         this.keyStoreFilePath = filePath;
         this.mainPassword = password;
@@ -18,20 +27,34 @@ public class KeyStoreMenager {
         createEmptyKeyStore();
     }
 
-    // Load or create a KeyStore
+    /**
+     * Creates an empty KeyStore and saves it to the specified file path.
+     *
+     * @throws Exception If an error occurs during KeyStore creation or saving.
+     */
     private void createEmptyKeyStore() throws Exception {
             keyStore.load(null, mainPassword); // Create a new KeyStore
             saveKeyStore();
     }
 
-    // Save the KeyStore
+    /**
+     * Saves the KeyStore to the specified file path.
+     *
+     * @throws Exception If an error occurs during saving.
+     */
     private void saveKeyStore() throws Exception {
         try (FileOutputStream fos = new FileOutputStream(keyStoreFilePath)) {
             keyStore.store(fos, mainPassword);
         }
     }
 
-    // List all entries in the KeyStore
+    /**
+     * Lists all entries in the KeyStore.
+     *
+     * @param passwd The password used to access private keys in the KeyStore.
+     * @return A map containing aliases as keys and KeyPairs as values.
+     * @throws Exception If an error occurs while accessing the KeyStore.
+     */
     public Map<String,KeyPair> listEntries(char[] passwd) throws Exception {
         Map<String, KeyPair> record = new HashMap<>();
         Enumeration<String> e = keyStore.aliases();
@@ -50,7 +73,13 @@ public class KeyStoreMenager {
         return record;
     }
 
-    // Create a new key pair and store it in the KeyStore
+    /**
+     * Creates a new RSA key pair and stores it in the KeyStore with a self-signed certificate.
+     *
+     * @param alias The alias under which the key pair will be stored.
+     * @param entryPassword The password for the key pair entry.
+     * @throws Exception If an error occurs during key pair generation or storage.
+     */
     public void createAndStoreKeyPair(String alias, char[] entryPassword) throws Exception {
         KeyPairGenerator keyPairGen = KeyPairGenerator.getInstance("RSA");
         keyPairGen.initialize(512);
@@ -64,7 +93,14 @@ public class KeyStoreMenager {
         System.out.println("Key pair created and stored with alias: " + alias);
     }
 
-    // Retrieve and use a key pair from the KeyStore
+    /**
+     * Retrieves a key pair from the KeyStore.
+     *
+     * @param alias The alias of the key pair to retrieve.
+     * @param entryPassword The password for the key pair entry.
+     * @return The retrieved KeyPair.
+     * @throws Exception If the alias does not exist or an error occurs during retrieval.
+     */
     public KeyPair retrieveKeyPair(String alias, char[] entryPassword) throws Exception {
         Key key = keyStore.getKey(alias, entryPassword);
         if (key instanceof PrivateKey) {
@@ -76,7 +112,12 @@ public class KeyStoreMenager {
         throw new KeyStoreException("No key pair found for alias: " + alias);
     }
 
-    // Delete an entry from the KeyStore
+    /**
+     * Deletes an entry from the KeyStore.
+     *
+     * @param alias The alias of the entry to delete.
+     * @throws Exception If the alias does not exist or an error occurs during deletion.
+     */
     public void deleteEntry(String alias) throws Exception {
         if (keyStore.containsAlias(alias)) {
             keyStore.deleteEntry(alias);

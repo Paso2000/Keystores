@@ -80,7 +80,12 @@ public class PBEController {
     }
 
     class CreateStorageKeyButtonListener implements ActionListener{
-
+        /**
+         * Creates a new KeyStore with the specified path and password provided by the user.
+         * The KeyStore will be initialized and stored at the given location.
+         *
+         * @param e ActionEvent triggered by the user interface.
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
            char[] passwd = view.getMyKeystorePassword();
@@ -95,7 +100,12 @@ public class PBEController {
     }
 
     class VisualizeStorageKeyButtonListener implements ActionListener{
-
+        /**
+         * Retrieves and displays all entries in the KeyStore. Each entry includes its alias,
+         * public key, and private key, which are displayed in the user interface.
+         *
+         * @param e ActionEvent triggered by the user interface.
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
@@ -112,7 +122,11 @@ public class PBEController {
     }
 
     class CreateKeyAndCertificateButtonListener implements ActionListener{
-
+        /**
+         * Creates a new key pair and a self-signed certificate in the KeyStore under the specified alias.
+         *
+         * @param e ActionEvent triggered by the user interface.
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             char[] passwd= view.getMyKeystorePassword();
@@ -128,6 +142,12 @@ public class PBEController {
     }
 
     class ImportKeyButtonListener implements ActionListener{
+        /**
+         * Imports a key pair from the KeyStore using the specified alias and password.
+         * The imported public and private keys are stored in memory for further use.
+         *
+         * @param e ActionEvent triggered by the user interface.
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             char[] passwd= view.getMyKeystorePassword();
@@ -144,6 +164,12 @@ public class PBEController {
     }
 
     class DeleteStorageKeyButtonListener implements ActionListener{
+        /**
+         * Deletes a record from the KeyStore based on the specified alias.
+         * If the alias exists, the corresponding entry is removed.
+         *
+         * @param e ActionEvent triggered by the user interface.
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             String alias = view.getAliasFordeleteKey();
@@ -158,7 +184,12 @@ public class PBEController {
     }
 
     class LoadStorageKeyButtonListener implements ActionListener{
-
+        /**
+         * Loads a KeyPair from the KeyStore using the password provided by the user.
+         * The loaded public and private keys are stored in memory for further use.
+         *
+         * @param e ActionEvent triggered by the user interface.
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             char[] passwd = view.getKeyStorePasswd();
@@ -176,7 +207,11 @@ public class PBEController {
 
 
     class StorageKeyButtonListener implements ActionListener{
-
+        /**
+         * Stores the current KeyPair into the KeyStore at the specified path with the given password.
+         *
+         * @param e ActionEvent triggered by the user interface.
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             char[] passwd = view.getKeyStorePasswd();
@@ -190,7 +225,12 @@ public class PBEController {
         }
     }
     class PublicKeyEncryptButtonListener implements  ActionListener{
-
+        /**
+         * Encrypts a file using the loaded public key and a specified encryption algorithm.
+         * The encrypted file is saved to a predefined location on the user's desktop.
+         *
+         * @param e ActionEvent triggered by the user interface.
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             File file = View.getFile();

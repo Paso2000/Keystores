@@ -22,6 +22,7 @@ public class View extends JFrame{
 
 
     private JMenuItem publicKEyDecryption;
+    private JMenuItem settingKeyStore;
     private JMenuItem createKeyStore;
     private JMenuItem visualizeKeyStore;
     private JMenuItem createKeyPairAndCertificate;
@@ -234,12 +235,28 @@ public class View extends JFrame{
         menuKey.add(storageKey);
         menuKey.add(loadStorageKey);
 
+        settingKeyStore = new JMenuItem("Setting");
+        settingKeyStore.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Crea e mostra il dialogo di configurazione
+                JDialog dialog = new JDialog(frame, "KeyStore Option", true);
+                dialog.setLayout(new GridLayout(10, 2, 10, 10));
+                dialog.setSize(500, 300);
+                dialog.setLocationRelativeTo(frame);
+
+                //da finire
+                dialog.add(labelCipher);
+                dialog.add(comboCipher);
+                dialog.setVisible(true);
+            }
+        });
         createKeyStore= new JMenuItem("Create Key Store");
         visualizeKeyStore = new JMenuItem("Show key store content");
         createKeyPairAndCertificate = new JMenuItem("Create key pair and KU Certificate");
         importKey = new JMenuItem("Load Key");
         deleteKey = new JMenuItem("Delete a record of the key store");
 
+        menuKeyStore.add(settingKeyStore);
         menuKeyStore.add(createKeyStore);
         menuKeyStore.add(visualizeKeyStore);
         menuKeyStore.add(createKeyPairAndCertificate);
@@ -297,6 +314,9 @@ public class View extends JFrame{
     // Methods to view output
     public void addResult(String result) {
         textArea.append(result+"\n\n");
+    }
+    public void cleanResulArea(){
+        textArea.setText("");
     }
     public void setResult(String result) {
         textArea.setText(result);

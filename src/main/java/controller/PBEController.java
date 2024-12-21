@@ -74,8 +74,8 @@ public class PBEController {
         this.view.addCreateStorageKeyButtonListener(new CreateStorageKeyButtonListener());
         this.view.addVisualizeStorageKeyButtonListener(new VisualizeStorageKeyButtonListener());
         this.view.addCreateKeyAndCertificateButtonListener(new CreateKeyAndCertificateButtonListener());
-        //this.view.addImportKeyButtonListener(new ImportKeyButtonListener());
-        //this.view.addDeleteStorageKeyButtonListener(new DeleteStorageKeyButtonListener());
+        this.view.addImportKeyButtonListener(new ImportKeyButtonListener());
+        this.view.addDeleteStorageKeyButtonListener(new DeleteStorageKeyButtonListener());
 
     }
 
@@ -123,6 +123,29 @@ public class PBEController {
         }
     }
 
+    class ImportKeyButtonListener implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            char[] passwd= view.getKeyStorePasswd();
+            try {
+                keyStoreMenager.retrieveKeyPair("marco",passwd );
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+        }
+    }
+
+    class DeleteStorageKeyButtonListener implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            try {
+                keyStoreMenager.deleteEntry("marco");
+                view.cleanResulArea();
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+        }
+    }
 
     class LoadStorageKeyButtonListener implements ActionListener{
 

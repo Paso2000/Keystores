@@ -46,6 +46,7 @@ public class KeyStoreMenager {
                 record.put(alias,new KeyPair(ku,kr));
             }
         }
+        //System.out.println(record);
         return record;
     }
 

@@ -19,7 +19,7 @@ public class View extends JFrame{
 
     private JMenuItem importKey;
 
-
+    private JTextField keySToreInsertextField;
 
     private JMenuItem publicKEyDecryption;
     private JMenuItem settingKeyStore;
@@ -49,6 +49,17 @@ public class View extends JFrame{
     private JLabel passwordLabel;
     private JPasswordField passwordField;
     private JLabel labelCipher;
+
+    private JTextField keyStoreImportTextField;
+
+    private JTextField keySToreDeleteTextField;
+
+    private JButton AccetptButton2;
+
+    private JButton AccetptButton3;
+
+
+    private JButton acceptButton1;
     private JLabel labelHash;
     private JLabel labelSign;
     private JComboBox<String> comboSign;
@@ -253,9 +264,116 @@ public class View extends JFrame{
         createKeyStore= new JMenuItem("Create Key Store");
         visualizeKeyStore = new JMenuItem("Show key store content");
         createKeyPairAndCertificate = new JMenuItem("Create key pair and KU Certificate");
-        importKey = new JMenuItem("Load Key");
-        deleteKey = new JMenuItem("Delete a record of the key store");
+        acceptButton1 = new JButton("Accept");
 
+        createKeyPairAndCertificate.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JDialog dialog = new JDialog(frame, "Insert data", true);
+                dialog.setSize(300, 150);
+                dialog.setLayout(new BorderLayout());
+
+                // Pannello centrale con label e text field
+                JPanel centerPanel = new JPanel(new GridLayout(2, 1, 5, 5));
+                JLabel label = new JLabel("Insert the alias:");
+                keySToreInsertextField = new JTextField("Default");
+                centerPanel.add(label);
+                centerPanel.add(keySToreInsertextField);
+
+                // Pannello inferiore con bottone
+                JPanel bottomPanel = new JPanel();
+                bottomPanel.add(acceptButton1);
+
+                // Azione del bottone
+                acceptButton1.addActionListener(c -> {
+                    dialog.dispose(); // Chiude il dialogo
+                });
+
+                // Aggiunta dei pannelli al dialogo
+                dialog.add(centerPanel, BorderLayout.CENTER);
+                dialog.add(bottomPanel, BorderLayout.SOUTH);
+
+                // Posizionare al centro della finestra principale
+                dialog.setLocationRelativeTo(frame);
+
+                // Mostrare il dialogo
+                dialog.setVisible(true);
+            }
+        });
+        importKey = new JMenuItem("Load Key");
+        AccetptButton2 = new JButton("Accept");
+
+        importKey.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JDialog dialog = new JDialog(frame, "Import key", true);
+                dialog.setSize(300, 150);
+                dialog.setLayout(new BorderLayout());
+
+                // Pannello centrale con label e text field
+                JPanel centerPanel = new JPanel(new GridLayout(2, 1, 5, 5));
+                JLabel label = new JLabel("Insert the alias to import:");
+                keyStoreImportTextField = new JTextField("Default");
+                centerPanel.add(label);
+                centerPanel.add(keyStoreImportTextField);
+
+                // Pannello inferiore con bottone
+                JPanel bottomPanel = new JPanel();
+                bottomPanel.add(AccetptButton2);
+
+                // Azione del bottone
+                AccetptButton2.addActionListener(c -> {
+                    dialog.dispose(); // Chiude il dialogo
+                });
+
+                // Aggiunta dei pannelli al dialogo
+                dialog.add(centerPanel, BorderLayout.CENTER);
+                dialog.add(bottomPanel, BorderLayout.SOUTH);
+
+                // Posizionare al centro della finestra principale
+                dialog.setLocationRelativeTo(frame);
+
+                // Mostrare il dialogo
+                dialog.setVisible(true);
+            }
+        });
+
+        deleteKey = new JMenuItem("Delete a record of the key store");
+        AccetptButton3 = new JButton("Accept");
+        deleteKey.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JDialog dialog = new JDialog(frame, "Import key", true);
+                dialog.setSize(300, 150);
+                dialog.setLayout(new BorderLayout());
+
+                // Pannello centrale con label e text field
+                JPanel centerPanel = new JPanel(new GridLayout(2, 1, 5, 5));
+                JLabel label = new JLabel("Insert the alias to import:");
+                keySToreDeleteTextField = new JTextField("Default");
+                centerPanel.add(label);
+                centerPanel.add(keySToreDeleteTextField);
+
+                // Pannello inferiore con bottone
+                JPanel bottomPanel = new JPanel();
+                bottomPanel.add(AccetptButton3);
+
+                // Azione del bottone
+                AccetptButton3.addActionListener(c -> {
+                    dialog.dispose(); // Chiude il dialogo
+                });
+
+                // Aggiunta dei pannelli al dialogo
+                dialog.add(centerPanel, BorderLayout.CENTER);
+                dialog.add(bottomPanel, BorderLayout.SOUTH);
+
+                // Posizionare al centro della finestra principale
+                dialog.setLocationRelativeTo(frame);
+
+                // Mostrare il dialogo
+                dialog.setVisible(true);
+            }
+        });
         menuKeyStore.add(settingKeyStore);
         menuKeyStore.add(createKeyStore);
         menuKeyStore.add(visualizeKeyStore);
@@ -283,6 +401,18 @@ public class View extends JFrame{
         frame.setVisible(true);
 
 
+    }
+
+    public String getAliasForInsertKey(){
+        return keySToreInsertextField.getText();
+    }
+
+    public String getAliasForImportKey(){
+        return keyStoreImportTextField.getText();
+    }
+
+    public String getAliasFordeleteKey(){
+        return keySToreDeleteTextField.getText();
     }
     public String getInputText() {
         return textArea.getText();
@@ -372,11 +502,11 @@ public class View extends JFrame{
 
     public void addVisualizeStorageKeyButtonListener(ActionListener listener) {visualizeKeyStore.addActionListener(listener);}
 
-    public void addCreateKeyAndCertificateButtonListener(ActionListener listener) {createKeyPairAndCertificate.addActionListener(listener);}
+    public void addCreateKeyAndCertificateButtonListener(ActionListener listener) {acceptButton1.addActionListener(listener);}
 
-    public void addImportKeyButtonListener(ActionListener listener) {importKey.addActionListener(listener);}
+    public void addImportKeyButtonListener(ActionListener listener) {AccetptButton2.addActionListener(listener);}
 
-    public void addDeleteStorageKeyButtonListener(ActionListener listener) {deleteKey.addActionListener(listener);}
+    public void addDeleteStorageKeyButtonListener(ActionListener listener) {AccetptButton3.addActionListener(listener);}
 
     public void addCreateStorageKeyButtonListener(ActionListener listener) {createKeyStore.addActionListener(listener);}
 

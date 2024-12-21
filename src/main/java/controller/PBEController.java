@@ -86,6 +86,7 @@ public class PBEController {
            char[] passwd= view.getKeyStorePasswd();
             try {
                 keyStoreMenager = new KeyStoreMenager("myStore.jks",passwd);
+                view.addResult("Store created with name: ");
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }
@@ -114,9 +115,11 @@ public class PBEController {
         @Override
         public void actionPerformed(ActionEvent e) {
             char[] passwd= view.getKeyStorePasswd();
+            String alias = view.getAliasForInsertKey();
 
             try {
-                keyStoreMenager.createAndStoreKeyPair( "marco",passwd);
+                keyStoreMenager.createAndStoreKeyPair( alias,passwd);
+                view.addResult("\nKey created with alias" + alias);
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }
@@ -127,8 +130,12 @@ public class PBEController {
         @Override
         public void actionPerformed(ActionEvent e) {
             char[] passwd= view.getKeyStorePasswd();
+            String alias = view.getAliasForImportKey();
             try {
-                keyStoreMenager.retrieveKeyPair("marco",passwd );
+                KeyPair keyPair =keyStoreMenager.retrieveKeyPair(alias,passwd );
+                publicKey = keyPair.getPublic();
+                privateKey = keyPair.getPrivate();
+                view.addResult("\nKey loaded right");
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }
@@ -138,9 +145,11 @@ public class PBEController {
     class DeleteStorageKeyButtonListener implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
+            String alias = view.getAliasFordeleteKey();
             try {
-                keyStoreMenager.deleteEntry("marco");
+                keyStoreMenager.deleteEntry(alias);
                 view.cleanResulArea();
+                view.addResult("\n Record called: "+ alias+"deleted with success");
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }
